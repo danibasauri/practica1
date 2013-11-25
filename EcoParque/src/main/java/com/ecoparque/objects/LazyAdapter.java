@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.ecoparque.R;
 import com.ecoparque.asyncTasks.ImageDownloadTask;
 
@@ -60,7 +59,7 @@ public class LazyAdapter extends BaseAdapter {
 
         holder.nameView.setText(data.get(position).getName());
         holder.position = position;
-        imDownlTask = new ImageDownloadTask(data.get(position).getUrl(),  activity.getApplicationContext(), position, holder);
+        imDownlTask = new ImageDownloadTask(data.get(position).getUrl(), activity, position, holder);
         imDownlTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, data.get(position).getUrl());
         return convertView;
     }

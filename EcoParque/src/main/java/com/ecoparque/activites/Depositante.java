@@ -14,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-
 import com.ecoparque.R;
 import com.ecoparque.fragments.DesconectarFragment;
 
@@ -33,13 +32,12 @@ public class Depositante extends Activity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(SeleccionUsuario.EXTRA_MESSAGE);
         from = intent.getStringExtra("from");
+
         ident = (EditText) findViewById(R.id.dep_ident);
         ident.setText(message);
 
 
-        peso = (EditText) findViewById(R.id.text_peso);
         btnDep = (Button) findViewById(R.id.depositar);
-
         btnDep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,11 +62,10 @@ public class Depositante extends Activity {
             }
         });
 
-        material = (CheckBox) findViewById(R.id.dep_chk_matInf);
-        aceites = (CheckBox) findViewById(R.id.dep_chk_aceites);
-        neveras = (CheckBox) findViewById(R.id.dep_chk_nev);
-
+        peso = (EditText) findViewById(R.id.text_peso);
         peso.addTextChangedListener(mTextEditorWatcher);
+
+        material = (CheckBox) findViewById(R.id.dep_chk_matInf);
         material.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -85,6 +82,7 @@ public class Depositante extends Activity {
             }
         });
 
+        aceites = (CheckBox) findViewById(R.id.dep_chk_aceites);
         aceites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -100,6 +98,7 @@ public class Depositante extends Activity {
             }
         });
 
+        neveras = (CheckBox) findViewById(R.id.dep_chk_nev);
         neveras.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override

@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.ecoparque.R;
 import com.ecoparque.fragments.DatePickerFragment;
 import com.ecoparque.fragments.DesconectarFragment;
 import com.ecoparque.objects.Constantes;
+import com.ecoparque.objects.NetInfo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,8 +26,9 @@ public class Resultados extends FragmentActivity {
     private LinearLayout coste;
     private Button enviarMail, registroNuevo, editarFecha;
     private TextView ident, matInf, aceites, neveras, cantResiduos, txtCalculo,
-            txtPrecio, txtIVA, txtTotal, iva, total, fecha, puntoLimpio;
+            txtPrecio, txtIVA, txtTotal, iva, total, fecha, puntoLimpio, txtCoste;
     private String contenidoMensaje;
+    NetInfo netInfo = new NetInfo(Resultados.this);
 
 
     @Override
@@ -35,20 +36,20 @@ public class Resultados extends FragmentActivity {
         super.onCreate(savedInstanceState);
         final Constantes appState = ((Constantes) this.getApplication());
         setContentView(R.layout.fragment_resultados);
+
         Intent intent = getIntent();
         String activity = intent.getStringExtra("from");
         String matInfIntent = intent.getStringExtra("matInf");
         String neverasIntent = intent.getStringExtra("neveras");
         String aceitesIntent = intent.getStringExtra("aceites");
-        Integer cont = 0;
         String message = intent.getStringExtra(SeleccionUsuario.EXTRA_MESSAGE);
+        Integer cont = 0;
+
         ident = (TextView) findViewById(R.id.str_id_depositante);
         ident.setText(message);
         iva = (TextView) findViewById(R.id.IVA);
         total = (TextView) findViewById(R.id.total);
-        matInf = (TextView) findViewById(R.id.mat_informatico);
-        neveras = (TextView) findViewById(R.id.neveras);
-        aceites = (TextView) findViewById(R.id.aceites);
+
         cantResiduos = (TextView) findViewById(R.id.cant_residuos);
 
         puntoLimpio = (TextView) findViewById(R.id.deposito_punto_limpio);
@@ -64,6 +65,7 @@ public class Resultados extends FragmentActivity {
         contenidoMensaje = "Depositante:" + "\t" + ident.getText().toString() + "\n";
         contenidoMensaje += "Residuos depositados: \n";
 
+        matInf = (TextView) findViewById(R.id.mat_informatico);
         if (matInfIntent.equalsIgnoreCase("true")) {
             matInf = (TextView) findViewById(R.id.mat_informatico);
             matInf.setVisibility(View.VISIBLE);
@@ -71,6 +73,7 @@ public class Resultados extends FragmentActivity {
             cont++;
         }
 
+        neveras = (TextView) findViewById(R.id.neveras);
         if (neverasIntent.equalsIgnoreCase("true")) {
             neveras = (TextView) findViewById(R.id.neveras);
             neveras.setVisibility(View.VISIBLE);
@@ -78,6 +81,7 @@ public class Resultados extends FragmentActivity {
             cont++;
         }
 
+        aceites = (TextView) findViewById(R.id.aceites);
         if (aceitesIntent.equalsIgnoreCase("true")) {
             aceites = (TextView) findViewById(R.id.aceites);
             aceites.setVisibility(View.VISIBLE);
@@ -93,6 +97,7 @@ public class Resultados extends FragmentActivity {
 
 
         if (activity.equalsIgnoreCase("empresa")) {
+
             coste = (LinearLayout) findViewById(R.id.layout_coste);
             coste.setVisibility(View.VISIBLE);
 
@@ -117,17 +122,32 @@ public class Resultados extends FragmentActivity {
             contenidoMensaje += iva.getText().toString() + "\t" + txtIVA.getText().toString() + "\n";
             contenidoMensaje += total.getText().toString() + "\t" + txtTotal.getText().toString() + "\n";
 
+            editarFecha = (Button) findViewById(R.id.editar_fecha);
+            editarFecha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogFragment newFragment = new DatePickerFragment();
+                    newFragment.show(getFragmentManager(), "datePicker");
+
+
+                }
+            });
+
         }
 
         enviarMail = (Button) findViewById(R.id.enviar_mail);
         enviarMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent email = new Intent(Intent.ACTION_SEND);
-                email.putExtra(Intent.EXTRA_SUBJECT, "Resultados depósito");
-                email.putExtra(Intent.EXTRA_TEXT, contenidoMensaje);
-                email.setType("message/rfc822");
-                startActivity(email);
+                if (netInfo.isConnected()) {
+                    Intent email = new Intent(Intent.ACTION_SEND);
+                    email.putExtra(Intent.EXTRA_SUBJECT, "Resultados depósito");
+                    email.putExtra(Intent.EXTRA_TEXT, contenidoMensaje);
+                    email.setType("message/rfc822");
+                    startActivity(email);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Comprueba tu conexión a internet", 1000).show();
+                }
             }
         });
 
@@ -145,18 +165,7 @@ public class Resultados extends FragmentActivity {
             }
         });
 
-        editarFecha = (Button) findViewById(R.id.editar_fecha);
 
-
-        editarFecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getFragmentManager(), "datePicker");
-
-
-            }
-        });
     }
 
 

@@ -2,12 +2,12 @@
 <resources>
 
     <string name="app_name">EcoParque</string>
-    <string name="title_activity_seleccion_usuario">SeleccionUsuario</string>
+    <string name="title_activity_seleccion_usuario">Selección de usuario</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="empresa_radio">Empresa</string>
     <string name="ciudadano_radio">Ciudadano</string>
-    <string name="title_activity_datos_empresa">DatosEmpresa</string>
+    <string name="title_activity_datos_empresa">Datos de la empresa</string>
     <string name="acceder">Acceder</string>
     <string name="iniciar">Iniciar depósito</string>
     <string name="intro_CIF">Introduce el CIF</string>
@@ -23,7 +23,7 @@
     <string name="ejemplo_telf">123-12345678</string>
     <string name="ejemplo_email">email@empresa.com</string>
     <string name="ejemplo_url">http://empresa.com</string>
-    <string name="title_activity_depositante">Depositante</string>
+    <string name="title_activity_depositante">Material a depositar</string>
     <string name="depositante">Depositante:</string>
     <string name="aceites">Aceites usados</string>
     <string name="ordenadores">Ordenadores</string>
@@ -32,7 +32,7 @@
     <string name="depositar">Depositar</string>
     <string name="peso_total">Peso total:</string>
     <string name="kg">Kg.</string>
-    <string name="title_activity_resultados">Resultados</string>
+    <string name="title_activity_resultados">Resultados del depósito</string>
     <string name="resultados">Resultados depósito</string>
     <string name="registrar_deposito">Registrar depósito</string>
     <string name="enviar_mail">Enviar por mail</string>
@@ -47,7 +47,7 @@
     <string name="iva_res">€ 250</string>
     <string name="resultado">€ 2500</string>
     <string name="depositante_id">45664301D</string>
-    <string name="title_activity_login">Ecoparque</string>
+    <string name="title_activity_login">Login</string>
 
     <!-- Strings related to login -->
     <string name="ciudadano">Ciudadano</string>
@@ -60,14 +60,14 @@
     <string name="error_invalid_password">Contraseña demasiado corta</string>
     <string name="error_incorrect_password">Usuario o contraseña incorrectos</string>
     <string name="error_field_required">Campo requerido</string>
-    <string name="title_activity_datos_dominio">DatosDominio</string>
+    <string name="title_activity_datos_dominio">Datos del dominio</string>
     <string name="titulo_datos">URL: </string>
     <string name="coordenadas">Coordenadas: </string>
     <string name="localidad">Localidad: </string>
     <string name="pais">País: </string>
     <string name="ip">Dirección IP: </string>
     <string name="info_dominio">Ver información dominio</string>
-    <string name="title_activity_seleccion_punto_limpio">SeleccionPuntoLimpio</string>
+    <string name="title_activity_seleccion_punto_limpio">Selección de punto limpio</string>
     <string name="desconectar">Desconectar</string>
     <string name="fecha_cobro">Fecha de cobro:</string>
     <string name="editar">Editar</string>
@@ -76,8 +76,8 @@
     <string name="confirmacion">¿Estás seguro?</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
-    <string name="title_activity_asfasdfasfas">asfasdfasfas</string>
     <string name="ver_mapa">Ver en mapa</string>
     <string name="title_activity_mapa_dominio">MapaDominio</string>
+    <string name="app_title">Eco Parque</string>
 
 </resources>

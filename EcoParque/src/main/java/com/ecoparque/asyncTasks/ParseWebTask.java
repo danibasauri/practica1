@@ -2,18 +2,18 @@ package com.ecoparque.asyncTasks;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.ecoparque.R;
+import com.ecoparque.activites.MapaDominio;
 import com.ecoparque.objects.UrlInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,10 +26,10 @@ public class ParseWebTask extends AsyncTask<String, Integer, String> {
     private UrlInfo urlInfo;
     private ProgressDialog pDialog;
     private GoogleMap mMap;
+    private Button mostrarMapa;
 
-    public ParseWebTask(Activity activity, GoogleMap map) {
+    public ParseWebTask(Activity activity) {
         this.activity = activity;
-        mMap = map;
     }
 
     @Override
@@ -53,38 +53,50 @@ public class ParseWebTask extends AsyncTask<String, Integer, String> {
         } catch (
                 IOException e
                 ) {
+
             e.printStackTrace();
+            return "error";
+
         }
-        return "";
+        return "ok";
     }
 
 
     @Override
-    protected void onPostExecute(String result) {
-        try {
-            pDialog.dismiss();
-            ip = (TextView) activity.findViewById(R.id.ip);
-            pais = (TextView) activity.findViewById(R.id.pais);
-            localidad = (TextView) activity.findViewById(R.id.localidad);
-            coordenadas = (TextView) activity.findViewById(R.id.coordenadas);
+    protected void onPostExecute(String result) throws NullPointerException {
+        if (result.equalsIgnoreCase("ok")) {
+            try {
 
-            ip.setText(ip.getText().toString() + urlInfo.getIp());
-            pais.setText(pais.getText().toString() + urlInfo.getCountry_name() + "(" + urlInfo.getCountry_code() + ")");
-            localidad.setText(localidad.getText().toString() + urlInfo.getCity());
-            coordenadas.setText(coordenadas.getText().toString() + urlInfo.getLatitude() + ", " + urlInfo.getLongitude());
+                ip = (TextView) activity.findViewById(R.id.ip);
+                pais = (TextView) activity.findViewById(R.id.pais);
+                localidad = (TextView) activity.findViewById(R.id.localidad);
+                coordenadas = (TextView) activity.findViewById(R.id.coordenadas);
 
-            mMap.setMyLocationEnabled(true);
+                ip.setText(ip.getText().toString() + urlInfo.getIp());
+                pais.setText(pais.getText().toString() + urlInfo.getCountry_name() + " (" + urlInfo.getCountry_code() + ")");
+                localidad.setText(localidad.getText().toString() + urlInfo.getCity());
+                coordenadas.setText(coordenadas.getText().toString() + urlInfo.getLatitude() + ", " + urlInfo.getLongitude());
 
-            LatLng usjLatLong = new LatLng(Double.parseDouble(urlInfo.getLatitude()), Double.parseDouble(urlInfo.getLongitude()));
-            mMap.addMarker(new MarkerOptions()
-                    .position(usjLatLong)
-                    .title("USJ")
-                    .snippet("La Universidad San Jorge"));
+                mostrarMapa = (Button) activity.findViewById(R.id.btn_mostrar_mapa);
+                mostrarMapa.setEnabled(true);
+                mostrarMapa.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, MapaDominio.class);
+                        intent.putExtra("lat", urlInfo.getLatitude());
+                        intent.putExtra("lon", urlInfo.getLongitude());
+                        activity.startActivity(intent);
+                    }
+                });
+                pDialog.dismiss();
+            } catch (NullPointerException e) {
+                Toast.makeText(activity, "Error al intentar obtener los datos de la web", 1000).show();
+                activity.finish();
+            }
 
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(usjLatLong, 13.0f));
-        } catch (NullPointerException e) {
-            Toast.makeText(activity, "No se ha podido acceder a la página web", 500).show();
+        } else {
+            Toast.makeText(activity, "Error al intentar obtener los datos de la web", 1000).show();
+            activity.finish();
         }
     }
 

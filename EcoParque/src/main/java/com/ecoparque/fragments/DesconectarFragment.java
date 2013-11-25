@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-
 import com.ecoparque.R;
 import com.ecoparque.activites.LoginActivity;
 

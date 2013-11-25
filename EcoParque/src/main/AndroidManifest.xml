@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ecoparque"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -16,10 +16,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <!--
-         The following two permissions are not required to use
-         Google Maps Android API v2, but are recommended.
-    -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -28,12 +24,12 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.ecoparque.activites.LoginActivity"
-            android:label="@string/title_activity_login"
+            android:label="@string/app_title"
             android:noHistory="true"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,55 +42,61 @@
         <activity
             android:name="com.ecoparque.activites.DatosEmpresa"
             android:label="@string/title_activity_datos_empresa"
-            android:parentActivityName="com.dani.ecoparque.SeleccionUsuario" >
+            android:parentActivityName="com.ecoparque.SeleccionUsuario">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dani.ecoparque.SeleccionUsuario" />
+                android:value="com.ecoparque.SeleccionUsuario" />
         </activity>
         <activity
             android:name="com.ecoparque.activites.Depositante"
             android:label="@string/title_activity_depositante"
-            android:parentActivityName="com.dani.ecoparque.SeleccionUsuario" >
+            android:parentActivityName="com.ecoparque.SeleccionUsuario">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dani.ecoparque.SeleccionUsuario" />
+                android:value="com.ecoparque.SeleccionUsuario" />
         </activity>
         <activity
             android:name="com.ecoparque.activites.Resultados"
             android:label="@string/title_activity_resultados"
-            android:parentActivityName="com.dani.ecoparque.Depositante" >
+            android:parentActivityName="com.ecoparque.Depositante">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dani.ecoparque.Depositante" />
+                android:value="com.ecoparque.Depositante" />
         </activity>
         <activity
             android:name="com.ecoparque.activites.DatosDominio"
             android:label="@string/title_activity_datos_dominio"
-            android:parentActivityName="com.dani.ecoparque.DatosEmpresa" >
+            android:parentActivityName="com.ecoparque.DatosEmpresa">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dani.ecoparque.DatosEmpresa" />
+                android:value="com.ecoparque.DatosEmpresa" />
         </activity>
         <activity
             android:name="com.ecoparque.activites.SeleccionPuntoLimpio"
             android:label="@string/title_activity_seleccion_punto_limpio"
-            android:parentActivityName="com.dani.ecoparque.LoginActivity" >
+            android:parentActivityName="com.ecoparque.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dani.ecoparque.LoginActivity" />
+                android:value="com.ecoparque.LoginActivity" />
+        </activity>
+        <activity
+            android:name="com.ecoparque.activites.MapaDominio"
+            android:label="@string/title_activity_mapa_dominio"
+            android:theme="@style/ThemeWithoutBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ecoparque.DatosDominio" />
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBNI1S3jU0vJswOFLgOWhLVGYwmBauVCoQ" />
 
-        <activity
-            android:name="com.ecoparque.MapaDominio"
-            android:label="@string/title_activity_mapa_dominio" >
-        </activity>
+
     </application>
 
     <uses-feature

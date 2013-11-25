@@ -1,16 +1,16 @@
 package com.ecoparque.asyncTasks;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-
 import com.ecoparque.R;
 import com.ecoparque.objects.FileCache;
 import com.ecoparque.objects.LazyAdapter;
 import com.ecoparque.objects.MemoryCache;
+import com.ecoparque.objects.NetInfo;
 import com.ecoparque.objects.Utils;
 
 import java.io.File;
@@ -32,10 +32,12 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private LazyAdapter.ViewHolder mHolder;
     final int stub_id = R.drawable.ic_launcher;
     private String mUrl;
+    private Activity mActivity;
 
 
-    public ImageDownloadTask(String url, Context context, int position, LazyAdapter.ViewHolder holder) {
-        fileCache = new FileCache(context);
+    public ImageDownloadTask(String url, Activity activity, int position, LazyAdapter.ViewHolder holder) {
+        fileCache = new FileCache(activity.getApplicationContext());
+        mActivity = activity;
         mPosition = position;
         mHolder = holder;
         mUrl = url;
@@ -70,27 +72,33 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
             return bitmap;
         }
         mHolder.imageView.setImageResource(stub_id);
-        try {
-            bitmap = null;
-            URL imageUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.setConnectTimeout(30000);
-            conn.setReadTimeout(30000);
-            conn.setInstanceFollowRedirects(true);
-            InputStream is = conn.getInputStream();
-            OutputStream os = new FileOutputStream(f);
-            Utils.CopyStream(is, os);
-            os.close();
-            bitmap = Utils.decodeFile(f);
-            memoryCache.put(url, bitmap);
-            return bitmap;
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            if (ex instanceof OutOfMemoryError)
-                memoryCache.clear();
-            return null;
-        }
+        NetInfo netInfo = new NetInfo(mActivity);
+        if (netInfo.isConnected()) {
+            try {
 
+
+                bitmap = null;
+                URL imageUrl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+                conn.setConnectTimeout(30000);
+                conn.setReadTimeout(30000);
+                conn.setInstanceFollowRedirects(true);
+                InputStream is = conn.getInputStream();
+                OutputStream os = new FileOutputStream(f);
+                Utils.CopyStream(is, os);
+                os.close();
+                bitmap = Utils.decodeFile(f);
+                memoryCache.put(url, bitmap);
+                return bitmap;
+
+            } catch (Throwable ex) {
+                ex.printStackTrace();
+                if (ex instanceof OutOfMemoryError)
+                    memoryCache.clear();
+                return null;
+            }
+        } else
+            return null;
     }
 
 
@@ -118,12 +126,6 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
         }
 
 
-    }
-
-    //Por si se quiere probar la carga de imágenes sin tenerlas en cache
-    public void clearCache() {
-        memoryCache.clear();
-        fileCache.clear();
     }
 
 }
